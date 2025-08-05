@@ -1,0 +1,111 @@
+site_name: OpenShift Notes
+site_description: Documentation for OpenShift installation, backup, storage, troubleshooting, and more.
+site_author: venkatapathirajr
+theme:
+  name: material
+  logo: images/logo.png
+  palette:
+    - scheme: default
+      primary: custom
+      accent: custom
+  font:
+    text: Red Hat Text
+    code: Roboto Mono
+    
+extra_javascript:
+  - js/auth.js
+
+extra_css:
+  - stylesheets/redhat-style.css
+nav:
+  - Home: index.md
+
+  - Git Helper:
+      - Git Backup: git-helper/ncd-git-backup.md
+      - Git Restore: git-helper/ncd-git-restore.md
+      - Deployment Scripts:
+          - Backup Config: git-helper/Deployment/backupconfig.sh
+          - New Git Server (v1): git-helper/Deployment/newgitserver.sh
+          - GIT deployment: git-helper/Deployment/git-server-deployment.md
+
+  - OpenShift:
+
+      - Project Management:
+          - Scope of work: openshift/projectmanagement/scope.md
+
+      - Deployment: 
+          - Nokia Automation Tool : openshift/deployment/automation/nokia-site-config-fixes.md
+
+      - User Management:
+          - Remove Kubeadmin: openshift/usermanagement/remove-kubeadmin.md
+          - User Management: openshift/usermanagement/user-management.md
+
+      - Backup & Restore:
+          - ACM GEO Red: openshift/backup-restore/ACM-GEO-RED.md
+          - ACM Local Backup: openshift/backup-restore/ACM-localbackup.md
+          - AWS S3 Backup: openshift/backup-restore/AWS-S3.md
+          - ETCD Backup: openshift/backup-restore/etcd-backup.md
+          - ETCD Restore: openshift/backup-restore/etcd-restore.md
+
+      - Intergrations:
+          - Clusterlogging: openshift/Intergration/syslog.md
+
+      - CNF Onboarding Support:
+          - Image TLS Issue: openshift/CNF-onboarding-support/image-tls-issue.md
+          - OCLogin TLS Issue: openshift/CNF-onboarding-support/oclogin-tls-issue.md
+          - Proxy Cache Pod: openshift/CNF-onboarding-support/proxy-cache-pod.md
+          - Role Allocation for CNF user: openshift/CNF-onboarding-support/rolebinding.md
+          - Failed to configure or Degraded: openshift/CNF-onboarding-support/Failtoconfigure_nncp.md
+          - Kubeconfig overlapping: openshift/CNF-onboarding-support/kubeconfig.md
+          - NCP Standard user and role Management: openshift/CNF-onboarding-support/NCP-default-usersandrole.md
+          - Cluster Wide TS: openshift/CNF-onboarding-support/ts-tools.md
+          - Istio for CNF: openshift/CNF-onboarding-support/istio-for-cnf.md
+
+      - Maintenance:
+          - Cluster Stop/Start: openshift/maintenace/cluster-stop-start.md
+          - Reboot Nodes: openshift/maintenace/reboot-nodes.md
+          - NMC/NWC Scale-In Nodes: openshift/maintenace/openshift_scalein_guide.md
+          - NMC/NWC Scale-Out Nodes: openshift/maintenace/openshift_scaleout_guide.md
+      - Networking:
+          - MetalLB Troubleshooting: openshift/networking/metalb-troubleshooting.md
+          - MetalLB Configuration: openshift/networking/metallb-configuration.md
+
+      - Storage Management:
+          - Ceph Rebalance Issue: openshift/storagemanagement/ceph-rebalanceissue.md
+          - Storage Node Replacement: openshift/storagemanagement/storage-node-replacement.md
+          - Ceph OSD recreate: openshift/storagemanagement/one-OSD-not-created.md
+
+      - Troubleshooting:
+          - Nsenter Usage: openshift/troubleshooting/nsenter.md
+          - NCOM Caas Issue: openshift/troubleshooting/ncomsa.md
+
+      - Disaster Management:
+          - Infra-Manager node reinstallation : openshift/disaster-management/infra-manager-redeployment/index.md
+          - Hub Cluster Master-replacement: openshift/disaster-management/hub-cluster-redeployment/master-replacment.md
+
+
+
+
+          
+markdown_extensions:
+  - toc:
+      permalink: true
+  - admonition
+  - codehilite
+  - tables
+  - footnotes
+  - attr_list
+  - def_list
+
+plugins:
+  - search
+
+extra:
+  footer: |
+    <div style="text-align: center;">
+      <img src="images/logo.png" alt="Red Hat Logo" style="width: 100px;"><br>
+      <button onclick="sessionStorage.removeItem('authenticated'); location.reload();"
+              style="margin-top: 10px; padding: 6px 12px; border-radius: 4px; background-color: #cc0000; color: white; border: none; cursor: pointer;">
+        Logout
+      </button>
+    </div>

@@ -1,0 +1,3 @@
+# openshiftnotes for MACD
+
+
