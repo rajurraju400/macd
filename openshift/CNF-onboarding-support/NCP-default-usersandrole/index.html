@@ -1,0 +1,1931 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for OpenShift installation, backup, storage, troubleshooting, and more.">
+      
+      
+        <meta name="author" content="venkatapathirajr">
+      
+      
+      
+        <link rel="prev" href="../kubeconfig/">
+      
+      
+        <link rel="next" href="../ts-tools/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.12">
+    
+    
+      
+        <title>NCP Standard user and role Management - OpenShift Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.2afb09e1.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Red+Hat+Text:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Red Hat Text";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/redhat-style.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ncp-users-and-roles-as-delivery" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="OpenShift Notes" class="md-header__button md-logo" aria-label="OpenShift Notes" data-md-component="logo">
+      
+  <img src="../../../images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            OpenShift Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              NCP Standard user and role Management
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="OpenShift Notes" class="md-nav__button md-logo" aria-label="OpenShift Notes" data-md-component="logo">
+      
+  <img src="../../../images/logo.png" alt="logo">
+
+    </a>
+    OpenShift Notes
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    MACD OpenShift
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            MACD OpenShift
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    MACD Management
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            MACD Management
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projectmanagement/scope/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Scope of work
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Deployment
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Deployment
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../deployment/automation/nokia-site-config-fixes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nokia Automation Tool
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    User Management
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            User Management
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usermanagement/remove-kubeadmin/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Remove Kubeadmin
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../usermanagement/user-management/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    User Management
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Backup & Restore
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Backup & Restore
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backup-restore/ACM-GEO-RED/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ACM GEO Red
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backup-restore/ACM-localbackup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ACM Local Backup
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backup-restore/AWS-S3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AWS S3 Backup
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backup-restore/etcd-backup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ETCD Backup
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../backup-restore/etcd-restore/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ETCD Restore
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Intergrations
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            Intergrations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Intergration/syslog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Clusterlogging
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    CNF Onboarding Support
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            CNF Onboarding Support
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../image-tls-issue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Image TLS Issue
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../oclogin-tls-issue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OCLogin TLS Issue
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../proxy-cache-pod/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Proxy Cache Pod
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rolebinding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Role Allocation for CNF user
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Failtoconfigure_nncp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Failed to configure or Degraded
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kubeconfig/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Kubeconfig overlapping
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    NCP Standard user and role Management
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    NCP Standard user and role Management
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#users-and-role-management-on-hub-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      Users and Role management on HUB cluster
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#users-and-role-management-on-nmcnwc-clusters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Users and Role management on NMC/NWC clusters
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Users and Role management on NMC/NWC clusters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cluster-admin-role-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cluster-Admin Role Implementation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#role-management-for-cnf-users-on-nmcnwc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Role Management for CNF users on NMC/NWC
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Role Management for CNF users on NMC/NWC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#admin-role-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Admin Role Implementation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#readwrite-custom-role-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Read,Write Custom Role Implementation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#read-only-cluster-infra-role-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Read-Only Cluster Infra Role Implementation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ts-tools/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cluster Wide TS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../istio-for-cnf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Istio for CNF
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Maintenance
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            Maintenance
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../maintenace/cluster-stop-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cluster Stop/Start
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../maintenace/reboot-nodes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Reboot Nodes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../maintenace/openshift_scalein_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    NMC/NWC Scale-In Nodes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../maintenace/openshift_scaleout_guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    NMC/NWC Scale-Out Nodes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_8" id="__nav_2_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Networking
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            Networking
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../networking/metalb-troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MetalLB Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../networking/metallb-configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MetalLB Configuration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_9" id="__nav_2_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_9">
+            <span class="md-nav__icon md-icon"></span>
+            Troubleshooting
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/nsenter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nsenter Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/ncomsa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    NCOM Caas Issue
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#users-and-role-management-on-hub-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      Users and Role management on HUB cluster
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#users-and-role-management-on-nmcnwc-clusters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Users and Role management on NMC/NWC clusters
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Users and Role management on NMC/NWC clusters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cluster-admin-role-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cluster-Admin Role Implementation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#role-management-for-cnf-users-on-nmcnwc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Role Management for CNF users on NMC/NWC
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Role Management for CNF users on NMC/NWC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#admin-role-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Admin Role Implementation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#readwrite-custom-role-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Read,Write Custom Role Implementation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#read-only-cluster-infra-role-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Read-Only Cluster Infra Role Implementation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="ncp-users-and-roles-as-delivery">NCP  user's and role's as delivery<a class="headerlink" href="#ncp-users-and-roles-as-delivery" title="Permanent link">&para;</a></h1>
+<p>This document outlines the list of approved user IDs and their associated access levels as permitted by management. It serves as a reference for the NCP engineering team to ensure that user and role configurations are strictly within the defined scope. No actions should be taken beyond what is specified in this document.</p>
+<blockquote>
+<p>Note: All user IDs and privileges must be provisioned exactly as outlined above. Any deviations or additional access requests require explicit approval from management.</p>
+</blockquote>
+<h2 id="users-and-role-management-on-hub-cluster">Users and Role management on HUB cluster<a class="headerlink" href="#users-and-role-management-on-hub-cluster" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>For <code>Administrator</code> level privileges</p>
+</blockquote>
+<ul>
+<li>
+<p><code>ncpadmin–</code> <code>cluster-admin</code> role – for the NCP team (our team).</p>
+</li>
+<li>
+<p><code>ncdadmin</code> – <code>cluster-admin</code> role – for the NCD team. This user will be used for NCD git installation (our team)and shared with the NCD team for ongoing lifecycle management.</p>
+</li>
+</ul>
+<blockquote>
+<p>Note 1: if your <code>HUB</code> cluster does not planned to install <code>ncd git server</code>, you can ignore those respective user id creation.</p>
+</blockquote>
+<h2 id="users-and-role-management-on-nmcnwc-clusters">Users and Role management on NMC/NWC clusters<a class="headerlink" href="#users-and-role-management-on-nmcnwc-clusters" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>For <code>Administrator</code> level privileges</p>
+</blockquote>
+<ul>
+<li>
+<p><code>ncpadmin</code> – <code>cluster-admin</code> role – for the NCP team (our team).</p>
+</li>
+<li>
+<p><code>ncdadmin</code> – <code>cluster-admin</code> role – for the NCD team. Used for NCD application installation by NCD team.</p>
+</li>
+<li>
+<p><code>ncomadmin</code> – <code>cluster-admin</code> role – for the NCOM team. To be used exclusively for NCOM installation.</p>
+</li>
+<li>
+<p><code>ncom-sa</code> - (<code>cluster-admin</code> role) Service Account - for NCOM Application is used via CaaS registration. We will create it for them.  </p>
+</li>
+</ul>
+<blockquote>
+<p>Note 1: if your <code>NMC/NWC</code> clusters does not planned to install <code>ncd</code> or <code>ncom</code>, you can ignore those respective user id creation.</p>
+</blockquote>
+<h3 id="cluster-admin-role-implementation">Cluster-Admin Role Implementation<a class="headerlink" href="#cluster-admin-role-implementation" title="Permanent link">&para;</a></h3>
+<p>No additional setup required. Clusterrole <code>cluster-admin</code> mapped to user.()</p>
+<div class="codehilite"><pre><span></span><code>oc<span class="w"> </span>adm<span class="w"> </span>policy<span class="w"> </span>add-cluster-role-to-user<span class="w"> </span>cluster-admin<span class="w"> </span>ncpadmin
+</code></pre></div>
+
+<h2 id="role-management-for-cnf-users-on-nmcnwc">Role Management for CNF users on NMC/NWC<a class="headerlink" href="#role-management-for-cnf-users-on-nmcnwc" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>For Non-Administrator users.</p>
+</blockquote>
+<p>By default, all CNF application users are assigned the following four roles:</p>
+<ul>
+<li>
+<p><code>Admin</code> role: Full access to the entire namespace (tenant-admin role for their specific namespace/project).</p>
+</li>
+<li>
+<p><code>ncp-default-rw-cnf-role</code>: Access at the namespace level, allowing users to create, update, delete, and schedule backup jobs, network attachments, redisentercluster, etc. </p>
+</li>
+<li>
+<p><code>ncp-default-ro-cnf-role</code>: Access at the cluster level to list, view, watch, and get information for nodes, SCC, NNCP, Metallb IP pool, static routes, backward routes, egress routes, CRDs, profiles, pv etc.</p>
+</li>
+</ul>
+<blockquote>
+<p>Note 1: No need to add above four role to any of these users (ncpadmin, ncdadmin,ncomadmin and ncom-sa)</p>
+<p>Note 2: Clarity - CNF id act as read-only for cluster level resources and read-write for tenant level resources.</p>
+</blockquote>
+<!-- Additionally, if users require access to other important resources at the cluster level as read only, we can add those as needed. To existing “ncp-default-cluster-role “, so automatically all cnf users will get the viewer access from there.  -->
+
+<h3 id="admin-role-implementation">Admin Role Implementation<a class="headerlink" href="#admin-role-implementation" title="Permanent link">&para;</a></h3>
+<p>No additional setup required. Role <code>admin</code> mapped to user and namespace:</p>
+<div class="codehilite"><pre><span></span><code>oc<span class="w"> </span>policy<span class="w"> </span>add-role-to-user<span class="w"> </span>admin<span class="w"> </span>paclypamrf01<span class="w"> </span>-n<span class="w"> </span>paclypamrf01
+</code></pre></div>
+
+<hr />
+<h3 id="readwrite-custom-role-implementation">Read,Write Custom  Role Implementation<a class="headerlink" href="#readwrite-custom-role-implementation" title="Permanent link">&para;</a></h3>
+<p>1) Create <code>ClusterRole</code> for network attachment:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterRole</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ncp-default-rw-cnf-role</span>
+<span class="nt">rules</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;k8s.cni.cncf.io&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;network-attachment-definitions&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;create&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;get&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;list&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;watch&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;update&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;patch&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;delete&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cbur.bcmt.local&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;brpolices&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;create&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;get&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;list&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;watch&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;update&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;patch&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cbur.csf.nokia.com&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;brhooks&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;brpolices&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;create&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;get&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;list&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;watch&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;update&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;patch&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;app.redislabs.com&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;redisenterpriseclusters&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;get&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;list&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;create&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;delete&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;update&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;patch&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;app.csf.nokia.com&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;profiles&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;get&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;list&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;watch&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;patch&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;charging.nokia.com&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;chargingfunctions&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;get&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;list&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;watch&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;patch&quot;</span><span class="p p-Indicator">]</span>
+</code></pre></div>
+
+<p>2) Bind role to user in their namespace:</p>
+<div class="codehilite"><pre><span></span><code>oc<span class="w"> </span>create<span class="w"> </span>rolebinding<span class="w"> </span>ncp-default-rw-cnf-role-paclypamrf01-rolebinding<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--clusterrole<span class="o">=</span>ncp-default-rw-cnf-role<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--user<span class="o">=</span>paclypamrf01<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="o">=</span>paclypamrf01
+</code></pre></div>
+
+<p>3) Validate access:</p>
+<div class="codehilite"><pre><span></span><code>oc<span class="w"> </span>auth<span class="w"> </span>can-i<span class="w"> </span>create<span class="w"> </span>network-attachment-definitions.k8s.cni.cncf.io<span class="w"> </span>--as<span class="o">=</span>paclypamrf01<span class="w"> </span>-n<span class="w"> </span>paclypamrf01
+oc<span class="w"> </span>auth<span class="w"> </span>can-i<span class="w"> </span>create<span class="w"> </span>redisenterpriseclusters<span class="w"> </span>--as<span class="o">=</span>paclypamrf01<span class="w"> </span>-n<span class="w"> </span>paclypamrf01
+oc<span class="w"> </span>auth<span class="w"> </span>can-i<span class="w"> </span>create<span class="w"> </span>brpolices<span class="w"> </span>--as<span class="o">=</span>paclypamrf01<span class="w"> </span>-n<span class="w"> </span>paclypamrf01
+</code></pre></div>
+
+<hr />
+<h3 id="read-only-cluster-infra-role-implementation">Read-Only Cluster Infra Role Implementation<a class="headerlink" href="#read-only-cluster-infra-role-implementation" title="Permanent link">&para;</a></h3>
+<p>1) Create <code>ClusterRole</code> for infra read access:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterRole</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ncp-default-ro-cnf-role</span>
+<span class="nt">rules</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;security.openshift.io&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;securitycontextconstraints&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;get&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;list&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;nodes&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;get&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;list&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;apiextensions.k8s.io&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;customresourcedefinitions&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;get&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;list&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;compliance.openshift.io&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;profiles&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;get&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;list&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;nmstate.io&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;nodenetworkconfigurationpolicies&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;get&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;list&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;watch&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;metallb.io&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;ipaddresspools&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;get&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;list&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;k8s.ovn.org&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;egressips&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;get&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;list&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;watch&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;k8s.cni.cncf.io&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;network-attachment-definitions&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;get&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;list&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;watch&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;topology.node.k8s.io&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;noderesourcetopologies&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;get&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;list&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;watch&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;sriovnetwork.openshift.io&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;sriovnetworknodepolicies&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;get&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;list&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;watch&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiGroups</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">resources</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;persistentvolumes&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">verbs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;get&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;list&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;watch&quot;</span><span class="p p-Indicator">]</span>
+</code></pre></div>
+
+<p>2) Bind the role:</p>
+<div class="codehilite"><pre><span></span><code>oc<span class="w"> </span>create<span class="w"> </span>clusterrolebinding<span class="w"> </span>ncp-default-ro-cnf-role-ppaaa01-binding<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--clusterrole<span class="o">=</span>ncp-default-ro-cnf-role<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--user<span class="o">=</span>ppaaa01
+</code></pre></div>
+
+<p>3) Validate access:</p>
+<div class="codehilite"><pre><span></span><code>oc<span class="w"> </span>auth<span class="w"> </span>can-i<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>--as<span class="o">=</span>ppaaa01
+oc<span class="w"> </span>auth<span class="w"> </span>can-i<span class="w"> </span>get<span class="w"> </span>scc<span class="w"> </span>--as<span class="o">=</span>ppaaa01
+oc<span class="w"> </span>auth<span class="w"> </span>can-i<span class="w"> </span>get<span class="w"> </span>crds<span class="w"> </span>--as<span class="o">=</span>ppaaa01
+oc<span class="w"> </span>login<span class="w"> </span>-u<span class="w"> </span>ppaaa01<span class="w"> </span>-p<span class="w"> </span>redhat123
+oc<span class="w"> </span>get<span class="w"> </span>nodes
+</code></pre></div>
+
+<hr />
+<!-- 
+## Beyond this is still part of future planning. Please do not implement it at this stage.
+
+###  TCPDUMP Role Implementation (under construction)
+
+
+
+1) Create the custom role. Here is the sample custom role definition yaml, customize this as per the requirements:
+
+
+<div class="codehilite"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rbac.authorization.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterRole</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ncp-default-tcpdump</span>
+<span class="nt">rules</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiGroups</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="w">  </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nodes</span>
+<span class="w">  </span><span class="nt">verbs</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">get</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">list</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiGroups</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="w">  </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">namespaces</span>
+<span class="w">  </span><span class="nt">verbs</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">get</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">list</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">watch</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">create</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">apiGroups</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="w">  </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pods</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pods/attach</span>
+<span class="w">  </span><span class="nt">verbs</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">create</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">delete</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">get</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">list</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">watch</span>
+</code></pre></div>
+
+
+
+> apply this role using oc command `oc apply -f ncp-default-tcpdump.yaml`
+
+2) To add the custom role to specific user, execute the following command:
+
+> nokia is the username.
+
+
+<div class="codehilite"><pre><span></span><code>oc adm policy add-cluster-role-to-user ncp-default-tcpdump nokia
+</code></pre></div>
+
+
+
+
+3) Validate with tcpdump execution
+
+```
+[root@ncputility ~ pancwl_rc]$ oc login -u nokia -p nokia@123
+WARNING: Using insecure TLS client config. Setting this option is not supported!
+
+Login successful.
+
+You have access to 137 projects, the list has been suppressed. You can list all projects with 'oc projects'
+
+Using project "".
+[root@ncputility ~ pancwl_rc]$ oc get nodes |tail -5
+storage0.panclypcwl01.mnc020.mcc714      Ready    storage,worker                     82d   v1.29.10+67d3387
+storage1.panclypcwl01.mnc020.mcc714      Ready    storage,worker                     82d   v1.29.10+67d3387
+storage2.panclypcwl01.mnc020.mcc714      Ready    storage,worker                     82d   v1.29.10+67d3387
+storage3.panclypcwl01.mnc020.mcc714      Ready    storage,worker                     82d   v1.29.10+67d3387
+storage4.panclypcwl01.mnc020.mcc714      Ready    storage,worker                     82d   v1.29.10+67d3387
+[root@ncputility ~ pancwl_rc]$ oc debug -t node/storage1.panclypcwl01.mnc020.mcc714
+Starting pod/storage1panclypcwl01mnc020mcc714-debug-4zdjb ...
+To use host binaries, run `chroot /host`
+Pod IP: 10.89.96.22
+If you don't see a command prompt, try pressing enter.
+sh-5.1# chroot /host
+sh-5.1# toolbox
+.toolboxrc file detected, overriding defaults...
+Trying to pull quay-registry.apps.panclyphub01.mnc020.mcc714/ocmirror/rhel9/support-tools:latest...
+Getting image source signatures
+Copying blob ebc7dc32a098 done   |
+Copying blob f5e6502d2728 done   |
+Copying config affd08d3be done   |
+Writing manifest to image destination
+affd08d3bead20c55f40f08270d477b1524d9d7a2db25235956c7858755ef5f3
+Spawning a container 'toolbox-root' with image 'quay-registry.apps.panclyphub01.mnc020.mcc714/ocmirror/rhel9/support-tools:latest'
+Detected RUN label in the container image. Using that as the default...
+fd81a47b434b6ef9f1f5c1f75f016417ace0424ac444ac160920d1b56317749c
+toolbox-root
+Container started successfully. To exit, type 'exit'.
+[root@storage1 /]# ip a |grep -i vlan
+14: tenant-vlan.11@tenant-bond: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 9126 qdisc noqueue state UP group default qlen 1000
+[root@storage1 /]# tcpdump -i tenant-vlan.11
+dropped privs to tcpdump
+tcpdump: verbose output suppressed, use -v[v]... for full protocol decode
+listening on tenant-vlan.11, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+00:22:01.223561 IP 172.21.1.3.6802 > 172.21.1.23.35424: Flags [P.], seq 891630642:891643891, ack 582150265, win 36945, options [nop,nop,TS val 4260967496 ecr 3116894346], length 13249
+00:22:01.223694 IP 172.21.1.23.35424 > 172.21.1.3.6802: Flags [.], ack 13249, win 42521, options [nop,nop,TS val 3116894355 ecr 4260967489], length 0
+00:22:01.223728 IP 172.21.1.23.35424 > 172.21.1.3.6802: Flags [P.], seq 1:45, ack 13249, win 42624, options [nop,nop,TS val 3116894355 ecr 4260967489], length 44
+00:22:01.224817 IP 172.21.1.23.35424 > 172.21.1.3.6802: Flags [P.], seq 45:246, ack 13249, win 42624, options [nop,nop,TS val 3116894356 ecr 4260967489], length 201
+00:22:01.224931 IP 172.21.1.3.6802 > 172.21.1.23.35424: Flags [.], ack 246, win 36944, options [nop,nop,TS val 4260967498 ecr 3116894355], length 0
+00:22:01.224932 IP 172.21.1.3.6802 > 172.21.1.23.35424: Flags [P.], seq 13249:13293, ack 246, win 36944, options [nop,nop,TS val 4260967498 ecr 3116894355], length 44
+00:22:01.230811 IP 172.21.1.3.6802 > 172.21.1.23.35424: Flags [P.], seq 13293:24555, ack 246, win 36944, options [nop,nop,TS val 4260967503 ecr 3116894355], length 11262
+00:22:01.230913 IP 172.21.1.23.35424 > 172.21.1.3.6802: Flags [.], ack 24555, win 42536, options [nop,nop,TS val 3116894362 ecr 4260967498], length 0
+00:22:01.230945 IP 172.21.1.23.35424 > 172.21.1.3.6802: Flags [P.], seq 246:290, ack 24555, win 42624, options [nop,nop,TS val 3116894362 ecr 4260967498], length 44
+00:22:01.231996 IP 172.21.1.23.35424 > 172.21.1.3.6802: Flags [P.], seq 290:491, ack 24555, win 42624, options [nop,nop,TS val 3116894363 ecr 4260967498], length 201
+00:22:01.232232 IP 172.21.1.3.6802 > 172.21.1.23.35424: Flags [.], ack 491, win 36943, options [nop,nop,TS val 4260967505 ecr 3116894362], length 0
+00:22:01.232233 IP 172.21.1.3.6802 > 172.21.1.23.35424: Flags [P.], seq 24555:24599, ack 491, win 36943, options [nop,nop,TS val 4260967505 ecr 3116894362], length 44
+00:22:01.234142 IP 172.21.1.20.48476 > 172.21.1.23.6806: Flags [P.], seq 16618268:16620391, ack 2665739091, win 190, options [nop,nop,TS val 378975619 ecr 1512308539], length 2123
+00:22:01.234143 IP 172.21.1.20.56650 > 172.21.1.25.6806: Flags [P.], seq 66939466:66941589, ack 3019954763, win 190, options [nop,nop,TS val 2352592038 ecr 2573341444], length 2123
+00:22:01.234179 IP 172.21.1.20.37550 > 172.21.1.5.6806: Flags [P.], seq 536898928:536901051, ack 2721273952, win 190, options [nop,nop,TS val 3815032447 ecr 4261087126], length 2123
+00:22:01.234180 IP 172.21.1.20.42496 > 172.21.1.27.6806: Flags [P.], seq 2279422716:2279424839, ack 1228283579, win 190, options [nop,nop,TS val 753256721 ecr 1445287494], length 2123
+00:22:01.234306 IP 172.21.1.25.6806 > 172.21.1.20.56650: Flags [P.], seq 1:2124, ack 2123, win 2416, options [nop,nop,TS val 2573344344 ecr 2352592038], length 2123
+00:22:01.234315 IP 172.21.1.23.6806 > 172.21.1.20.48476: Flags [P.], seq 1:2124, ack 2123, win 2410, options [nop,nop,TS val 1512311439 ecr 378975619], length 2123
+00:22:01.234343 IP 172.21.1.5.6806 > 172.21.1.20.37550: Flags [P.], seq 1:2124, ack 2123, win 2113, options [nop,nop,TS val 4261090026 ecr 3815032447], length 2123
+00:22:01.234379 IP 172.21.1.27.6806 > 172.21.1.20.42496: Flags [P.], seq 1:2124, ack 2123, win 2676, options [nop,nop,TS val 1445290394 ecr 753256721], length 2123
+00:22:01.234396 IP 172.21.1.20.56650 > 172.21.1.25.6806: Flags [.], ack 2124, win 190, options [nop,nop,TS val 2352592038 ecr 2573344344], length 0
+00:22:01.234402 IP 172.21.1.20.48476 > 172.21.1.23.6806: Flags [.], ack 2124, win 190, options [nop,nop,TS val 378975619 ecr 1512311439], length 0
+00:22:01.234505 IP 172.21.1.20.37550 > 172.21.1.5.6806: Flags [.], ack 2124, win 190, options [nop,nop,TS val 3815032447 ecr 4261090026], length 0
+00:22:01.234537 IP 172.21.1.20.42496 > 172.21.1.27.6806: Flags [.], ack 2124, win 190, options [nop,nop,TS val 753256721 ecr 1445290394], length 0
+00:22:01.237103 IP 172.21.1.27.37158 > 172.21.1.4.6802: Flags [.], ack 1012967756, win 40512, options [nop,nop,TS val 1680035224 ecr 16420672], length 0
+00:22:01.237103 IP 172.21.1.2.60590 > 172.21.1.7.6802: Flags [.], ack 1116017082, win 43392, options [nop,nop,TS val 3825550554 ecr 581103573], length 0
+00:22:01.237104 IP 172.21.1.19.6802 > 172.21.1.11.47258: Flags [.], ack 725570602, win 33408, options [nop,nop,TS val 1704546955 ecr 606498906], length 0
+00:22:01.237110 IP 172.21.1.27.40172 > 172.21.1.16.6802: Flags [.], ack 1828746574, win 42763, options [nop,nop,TS val 3228209995 ecr 3785675081], length 0
+00:22:01.237112 IP 172.21.1.27.6802 > 172.21.1.24.53758: Flags [.], ack 2581029255, win 40512, options [nop,nop,TS val 876559214 ecr 2297188001], length 0
+00:22:01.238104 IP 172.21.1.27.6802 > 172.21.1.7.53514: Flags [.], ack 2578143080, win 43338, options [nop,nop,TS val 2139259988 ecr 593023046], length 0
+00:22:01.238110 IP 172.21.1.23.60636 > 172.21.1.16.6802: Flags [.], ack 3061253067, win 43392, options [nop,nop,TS val 3409467790 ecr 465730765], length 0
+00:22:01.243103 IP 172.21.1.5.58300 > 172.21.1.30.6802: Flags [.], ack 3801079551, win 43968, options [nop,nop,TS val 1313654200 ecr 3953015095], length 0
+00:22:01.245254 IP 172.21.1.9.60686 > 172.21.1.19.6802: Flags [P.], seq 3886789242:3886795319, ack 4202967298, win 35133, options [nop,nop,TS val 3668480800 ecr 724885667], length 6077
+00:22:01.245268 IP 172.21.1.19.6802 > 172.21.1.9.60686: Flags [.], ack 6077, win 43537, options [nop,nop,TS val 724886173 ecr 3668480800], length 0
+00:22:01.245326 IP 172.21.1.23.6802 > 172.21.1.24.48990: Flags [P.], seq 2121865670:2121879923, ack 3941873936, win 40512, options [nop,nop,TS val 1387138236 ecr 2042625459], length 14253
+00:22:01.245327 IP 172.21.1.23.33826 > 172.21.1.4.6802: Flags [P.], seq 937574034:937588287, ack 2453757626, win 43392, options [nop,nop,TS val 3401137216 ecr 577535357], length 14253
+^C00:22:01.245336 IP 172.21.1.29.33576 > 172.21.1.27.6802: Flags [P.], seq 2841329512:2841335589, ack 1230720694, win 43392, options [nop,nop,TS val 1809019513 ecr 2541468665], length 6077
+
+37 packets captured
+11885 packets received by filter
+11538 packets dropped by kernel
+[root@storage1 /]#
+
+``` -->
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+        <script src="../../../js/auth.js"></script>
+      
+    
+  </body>
+</html>
